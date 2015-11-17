@@ -1,0 +1,40 @@
+.movie {
+	display: block;
+	width: 100%;
+	line-height: 24px;
+	cursor: pointer;
+	transition: all 300ms ease-in-out 0s;
+	-webkit-transition: all 300ms ease-in-out 0s;
+	-moz-transition: all 300ms ease-in-out 0s;
+}
+
+.movie:hover {
+	opacity: 0.5;
+}
+
+.movieDiv {
+	float: left;
+	margin: 10px 10px;
+}
+
+.movie b {
+	padding-bottom: 12px;
+	display: block;
+	background: url(../image/game_lsit_hover.png) bottom no-repeat;
+	position: relative;
+}
+
+.movie span {
+	display: block;
+	padding-left: 6px;
+	width: 116px;
+	width: 116px;
+	height: 32px;
+	line-height: 32px;
+	color: #444;
+	overflow: hidden;
+	text-align: center;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: 14px;
+}

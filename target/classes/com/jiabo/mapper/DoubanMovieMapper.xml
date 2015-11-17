@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiabo.mapper.DoubanMovieMapper">
+	<resultMap id="BaseResultMap" type="com.jiabo.model.DoubanMovie">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="title" jdbcType="VARCHAR" property="title" />
+		<result column="alt" jdbcType="VARCHAR" property="alt" />
+		<result column="rating" jdbcType="VARCHAR" property="rating" />
+		<result column="casts" jdbcType="VARCHAR" property="casts" />
+		<result column="year" jdbcType="VARCHAR" property="year" />
+		<result column="countries" jdbcType="VARCHAR" property="countries" />
+		<result column="genres" jdbcType="VARCHAR" property="genres" />
+		<result column="photos" jdbcType="VARCHAR" property="photos" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="com.jiabo.model.DoubanMovie">
+		<result column="summary" jdbcType="LONGVARCHAR" property="summary" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, title, alt, rating, casts, year, countries, genres, photos
+	</sql>
+	<sql id="Blob_Column_List">
+		summary
+	</sql>
+	<select id="selectById" parameterType="java.lang.Integer"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from doubanmovie
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		doubanmovie
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.jiabo.model.DoubanMovie">
+		insert into doubanmovie (id,
+		title, alt,
+		rating, casts, year,
+		countries, genres,
+		summary)
+		values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+		#{alt,jdbcType=VARCHAR},
+		#{rating,jdbcType=VARCHAR},
+		#{casts,jdbcType=VARCHAR}, #{year,jdbcType=VARCHAR},
+		#{countries,jdbcType=VARCHAR}, #{genres,jdbcType=VARCHAR},
+		#{summary,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.jiabo.model.DoubanMovie">
+		insert into doubanmovie
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="alt != null">
+				alt,
+			</if>
+			<if test="rating != null">
+				rating,
+			</if>
+			<if test="casts != null">
+				casts,
+			</if>
+			<if test="year != null">
+				year,
+			</if>
+			<if test="countries != null">
+				countries,
+			</if>
+			<if test="genres != null">
+				genres,
+			</if>
+			<if test="summary != null">
+				summary,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="alt != null">
+				#{alt,jdbcType=VARCHAR},
+			</if>
+			<if test="rating != null">
+				#{rating,jdbcType=VARCHAR},
+			</if>
+			<if test="casts != null">
+				#{casts,jdbcType=VARCHAR},
+			</if>
+			<if test="year != null">
+				#{year,jdbcType=VARCHAR},
+			</if>
+			<if test="countries != null">
+				#{countries,jdbcType=VARCHAR},
+			</if>
+			<if test="genres != null">
+				#{genres,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null">
+				#{summary,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiabo.model.DoubanMovie">
+		update doubanmovie
+		<set>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="alt != null">
+				alt = #{alt,jdbcType=VARCHAR},
+			</if>
+			<if test="rating != null">
+				rating = #{rating,jdbcType=VARCHAR},
+			</if>
+			<if test="casts != null">
+				casts = #{casts,jdbcType=VARCHAR},
+			</if>
+			<if test="year != null">
+				year = #{year,jdbcType=VARCHAR},
+			</if>
+			<if test="countries != null">
+				countries = #{countries,jdbcType=VARCHAR},
+			</if>
+			<if test="genres != null">
+				genres = #{genres,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null">
+				summary = #{summary,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jiabo.model.DoubanMovie">
+		update
+		doubanmovie
+		set title = #{title,jdbcType=VARCHAR},
+		alt =
+		#{alt,jdbcType=VARCHAR},
+		rating = #{rating,jdbcType=VARCHAR},
+		casts =
+		#{casts,jdbcType=VARCHAR},
+		year = #{year,jdbcType=VARCHAR},
+		countries =
+		#{countries,jdbcType=VARCHAR},
+		genres = #{genres,jdbcType=VARCHAR},
+		summary = #{summary,jdbcType=LONGVARCHAR}
+		where id =
+		#{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.jiabo.model.DoubanMovie">
+		update doubanmovie
+		set title = #{title,jdbcType=VARCHAR},
+		alt = #{alt,jdbcType=VARCHAR},
+		rating = #{rating,jdbcType=VARCHAR},
+		casts = #{casts,jdbcType=VARCHAR},
+		year = #{year,jdbcType=VARCHAR},
+		countries =
+		#{countries,jdbcType=VARCHAR},
+		genres = #{genres,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

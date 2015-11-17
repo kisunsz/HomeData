@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiabo.mapper.BlogMapper">
+	<resultMap id="BaseResultMap" type="com.jiabo.model.Blog">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="type" jdbcType="INTEGER" property="type" />
+		<result column="title" jdbcType="VARCHAR" property="title" />
+		<result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="com.jiabo.model.Blog">
+		<result column="context" jdbcType="LONGVARCHAR" property="context" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, type, title, updateTime
+	</sql>
+	<sql id="Blob_Column_List">
+		context
+	</sql>
+	<select id="selectById" parameterType="java.lang.Integer"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from blog
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from blog
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.jiabo.model.Blog">
+		insert into blog (id, type, title,
+		updateTime, context)
+		values (#{id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER},
+		#{title,jdbcType=VARCHAR},
+		#{updatetime,jdbcType=TIMESTAMP}, #{context,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.jiabo.model.Blog">
+		insert into blog
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="updatetime != null">
+				updateTime,
+			</if>
+			<if test="context != null">
+				context,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="updatetime != null">
+				#{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="context != null">
+				#{context,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiabo.model.Blog">
+		update blog
+		<set>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="updatetime != null">
+				updateTime = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="context != null">
+				context = #{context,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateById" parameterType="com.jiabo.model.Blog">
+		update blog
+		set type = #{type,jdbcType=INTEGER},
+		title = #{title,jdbcType=VARCHAR},
+		updateTime = #{updatetime,jdbcType=TIMESTAMP},
+		context = #{context,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.jiabo.model.Blog">
+		update blog
+		set type = #{type,jdbcType=INTEGER},
+		title = #{title,jdbcType=VARCHAR},
+		updateTime = #{updatetime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="selectAll" resultMap="ResultMapWithBLOBs">
+		select * from blog
+	</select>
+	<select id="selectByType" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select * from blog where type=#{type,jdbcType=INTEGER}
+	</select>
+</mapper>

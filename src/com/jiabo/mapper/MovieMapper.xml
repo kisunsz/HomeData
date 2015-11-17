@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiabo.mapper.MovieMapper">
+	<resultMap id="BaseResultMap" type="com.jiabo.model.Movie">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="filestorageId" property="filestorageid"
+			jdbcType="INTEGER" />
+		<result column="doubanId" property="doubanid" jdbcType="INTEGER" />
+		<association property="photo" javaType="com.jiabo.model.Filestorage">
+			<id column="f_id" property="id" jdbcType="INTEGER" />
+			<result column="f_path" property="path" jdbcType="VARCHAR" />
+			<result column="f_name" property="name" jdbcType="VARCHAR" />
+			<result column="f_linkId" property="linkid" jdbcType="INTEGER" />
+			<result column="f_type" property="type" jdbcType="INTEGER" />
+			<result column="f_isDir" property="isdir" jdbcType="INTEGER" />
+		</association>
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, name, photo, filestorageId, doubanId
+	</sql>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from movie
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.jiabo.model.Movie">
+		insert into movie ( name,
+		photo,
+		filestorageId, doubanId)
+		values (
+		#{name,jdbcType=VARCHAR},
+		#{photo.id,jdbcType=INTEGER},
+		#{filestorageid,jdbcType=INTEGER},
+		#{doubanid,jdbcType=INTEGER})
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.jiabo.model.Movie">
+		update movie
+		set
+		name = #{name,jdbcType=VARCHAR},
+		photo = #{photo.id,jdbcType=INTEGER},
+		filestorageId = #{filestorageid,jdbcType=INTEGER},
+		doubanId =
+		#{doubanid,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		m.id,m.name,m.photo,m.filestorageId,m.doubanId,f.id as f_id,f.path as
+		f_path,f.name as f_name,f.linkId as f_linkId,f.type as f_type,f.isDir
+		as f_isDir from movie m left join filestorage f on m.photo=f.id
+	</select>
+	<select id="selectById" resultMap="BaseResultMap" parameterType="Integer">
+		select
+		m.id,m.name,m.photo,m.filestorageId,m.doubanId,f.id as f_id,f.path as
+		f_path,f.name as f_name,f.linkId as f_linkId,f.type as f_type,f.isDir
+		as f_isDir from movie m left join filestorage f on m.photo=f.id where
+		m.id=#{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteAll">
+		delete from movie
+	</delete>
+	<delete id="deleteById" parameterType="com.jiabo.model.Movie">
+		delete from movie where id
+		= #{id,jdbcType=INTEGER}
+	</delete>
+</mapper>

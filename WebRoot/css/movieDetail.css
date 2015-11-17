@@ -1,0 +1,9 @@
+.photos {
+	margin: 10px 0;
+}
+
+.photos img {
+	position: absolute;
+	display: block;
+	margin: 5px 5px;
+}

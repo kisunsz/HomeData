@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.jiabo.model.Filestorage" alias="Filestorage" />
+		<typeAlias type="com.jiabo.model.Movie" alias="Movie" />
+		<typeAlias type="com.jiabo.model.DoubanMovie" alias="DoubanMovie" />
+		<typeAlias type="com.jiabo.model.Blog" alias="Blog"/>
+	</typeAliases>
+
+	<mappers>
+		<mapper resource="com/jiabo/mapper/FilestorageMapper.xml" />
+		<mapper resource="com/jiabo/mapper/MovieMapper.xml" />
+		<mapper resource="com/jiabo/mapper/UserMapper.xml" />
+		<mapper resource="com/jiabo/mapper/DoubanMovieMapper.xml" />
+		<mapper resource="com/jiabo/mapper/BlogMapper.xml" />
+		<mapper resource="com/jiabo/mapper/PhotoMapper.xml" />
+		<mapper resource="com/jiabo/mapper/GalleryMapper.xml" />
+		<mapper resource="com/jiabo/mapper/UserMapper.xml" />
+		<mapper resource="com/jiabo/mapper/TvMapper.xml" />
+	</mappers>
+</configuration>  
