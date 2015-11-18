@@ -2,41 +2,42 @@ package com.jiabo.services;
 
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jiabo.bean.ZImgResult;
 import com.jiabo.dao.BaseDAO;
-import com.jiabo.model.Filestorage;
 import com.jiabo.model.Photo;
-import com.jiabo.util.Const;
-import com.jiabo.util.ImageZipUtil;
 
 @Service
-public class PhotoServices {
-
-	@Autowired
-	private BaseDAO dao;
-
-	@Autowired
-	private FileStorageServices fsServices;
+public class PhotoServices extends BaseServices {
 
 	public void uploadPhoto(MultipartFile[] files, Integer galleryid) {
 		for (MultipartFile file : files) {
-			Filestorage fs = fsServices.createAndSavePhoto(file, null,"photo");
-			Photo photo = new Photo();
-			photo.setFilestorageid(fs.getId());
-			photo.setGalleryid(galleryid);
-			photo.setUpdatetime(new Date());
-			photo.setTitle(fs.getName());
-			Filestorage zip = fsServices.createFileStorage(null, null, Const.FILE_PHOTO, null);
-			photo.setZipfilestorageid(zip.getId());
-			String zipPath=Const.basePath+"/photo/"+zip.getId()+".jpg";
-			ImageZipUtil.zip(fs.getPath(),zipPath);
-			zip.setPath(zipPath);
-			zip.setName(zip.getId()+".jpg");
-			dao.insertObject("insert", photo);
-			dao.updateById("updateById", zip);
+			try {
+				Photo photo = createPhoto(file, galleryid);
+				ZImgResult result = zImgService.upload(
+						file.getInputStream(),
+						file.getOriginalFilename()
+								.substring(
+										file.getOriginalFilename().lastIndexOf(
+												".") + 1));
+				if (result.isSuccess()) {
+					photo.setPhoto(result.getMd5());
+				}
+				dao.insertObject(BaseDAO.SQL_INSERT, photo);
+			} catch (Exception e) {
+				e.printStackTrace();
+				continue;
+			}
 		}
+	}
+
+	private Photo createPhoto(MultipartFile file, Integer galleryid) {
+		Photo photo = new Photo();
+		photo.setGalleryid(galleryid);
+		photo.setTitle(file.getOriginalFilename());
+		photo.setUpdatetime(new Date());
+		return photo;
 	}
 }

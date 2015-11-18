@@ -28,14 +28,14 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
-		log.info("==============执行顺序: 1、preHandle================");
+		//log.info("==============执行顺序: 1、preHandle================");
 		String requestUri = request.getRequestURI();
 		String contextPath = request.getContextPath();
 		String url = requestUri.substring(contextPath.length()+1);
 
-		log.info("requestUri:" + requestUri);
-		log.info("contextPath:" + contextPath);
-		log.info("url:" + url);
+		//log.info("requestUri:" + requestUri);
+		//log.info("contextPath:" + contextPath);
+		//log.info("url:" + url);
 		if(url.endsWith(".js")||url.endsWith(".css")||url.endsWith(".jpg")||url.endsWith("login"))return true;
 		User user = (User) request.getSession().getAttribute("user");
 		if (user == null) {

@@ -1,15 +1,15 @@
 package com.jiabo.model;
 
-public class Movie  {
+public class Movie {
     private Integer id;
 
     private String name;
 
-    private Filestorage photo;
-
-    private Integer filestorageid;
+    private String photo;
 
     private Integer doubanid;
+
+    private String path;
 
     public Integer getId() {
         return id;
@@ -27,20 +27,12 @@ public class Movie  {
         this.name = name == null ? null : name.trim();
     }
 
-    public Filestorage getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(Filestorage photo) {
-        this.photo = photo;
-    }
-
-    public Integer getFilestorageid() {
-        return filestorageid;
-    }
-
-    public void setFilestorageid(Integer filestorageid) {
-        this.filestorageid = filestorageid;
+    public void setPhoto(String photo) {
+        this.photo = photo == null ? null : photo.trim();
     }
 
     public Integer getDoubanid() {
@@ -49,5 +41,13 @@ public class Movie  {
 
     public void setDoubanid(Integer doubanid) {
         this.doubanid = doubanid;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path == null ? null : path.trim();
     }
 }

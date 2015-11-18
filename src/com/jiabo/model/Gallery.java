@@ -9,7 +9,7 @@ public class Gallery {
 
     private Date updatetime;
 
-    private Integer filestorageid;
+    private String photo;
 
     public Integer getId() {
         return id;
@@ -35,11 +35,11 @@ public class Gallery {
         this.updatetime = updatetime;
     }
 
-    public Integer getFilestorageid() {
-        return filestorageid;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setFilestorageid(Integer filestorageid) {
-        this.filestorageid = filestorageid;
+    public void setPhoto(String photo) {
+        this.photo = photo == null ? null : photo.trim();
     }
 }

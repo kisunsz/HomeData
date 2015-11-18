@@ -11,11 +11,9 @@ public class Photo {
 
     private Date updatetime;
 
-    private Integer filestorageid;
-
     private Integer galleryid;
 
-    private Integer zipfilestorageid;
+    private String photo;
 
     public Integer getId() {
         return id;
@@ -49,14 +47,6 @@ public class Photo {
         this.updatetime = updatetime;
     }
 
-    public Integer getFilestorageid() {
-        return filestorageid;
-    }
-
-    public void setFilestorageid(Integer filestorageid) {
-        this.filestorageid = filestorageid;
-    }
-
     public Integer getGalleryid() {
         return galleryid;
     }
@@ -65,11 +55,11 @@ public class Photo {
         this.galleryid = galleryid;
     }
 
-    public Integer getZipfilestorageid() {
-        return zipfilestorageid;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setZipfilestorageid(Integer zipfilestorageid) {
-        this.zipfilestorageid = zipfilestorageid;
+    public void setPhoto(String photo) {
+        this.photo = photo == null ? null : photo.trim();
     }
 }

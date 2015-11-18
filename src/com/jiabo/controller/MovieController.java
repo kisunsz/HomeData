@@ -15,13 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.jiabo.dao.BaseDAO;
 import com.jiabo.model.DoubanMovie;
-import com.jiabo.model.Filestorage;
+import com.jiabo.model.Img;
 import com.jiabo.model.Movie;
 import com.jiabo.services.DoubanServices;
-import com.jiabo.services.FileStorageServices;
 import com.jiabo.services.MovieServices;
 
 @Controller
@@ -31,9 +29,6 @@ public class MovieController extends BaseController {
 
 	@Autowired
 	private MovieServices movieServices;
-
-	@Autowired
-	private FileStorageServices fsServices;
 
 	@Autowired
 	private DoubanServices doubanServices;
@@ -50,6 +45,7 @@ public class MovieController extends BaseController {
 		movieServices.scanner(true);
 		return "redirect:/movie";
 	}
+
 	@RequestMapping("/movie/rename")
 	public String rename() {
 		movieServices.renameMoive();
@@ -61,13 +57,10 @@ public class MovieController extends BaseController {
 		Movie movie = dao.selectOne("selectById", id, Movie.class);
 		if (movie == null)
 			throw new RuntimeException("当前电影未找到");
-		Filestorage fs = dao.selectOne("selectById", movie.getFilestorageid(),
-				Filestorage.class);
 		DoubanMovie douban = doubanServices.queryMovie(movie.getDoubanid());
 		request.setAttribute("movie", movie);
-		request.setAttribute("filestorage", fs);
-		request.setAttribute("photos", dao.selectList("selectByLinkId",
-				douban.getId(), Filestorage.class));
+		request.setAttribute("photos",
+				dao.selectList("selectByLinkId", douban.getId(), Img.class));
 		request.setAttribute("doubanMovie", douban);
 		return "movie/detail";
 	}
@@ -77,23 +70,20 @@ public class MovieController extends BaseController {
 	public void video(@PathVariable Integer id, HttpServletRequest req,
 			HttpServletResponse resp) {
 		Movie movie = dao.selectOne("selectById", id, Movie.class);
-		Filestorage fs = dao.selectOne("selectById", movie.getFilestorageid(),
-				Filestorage.class);
 		resp.reset();
 		long pos = 0;
-		System.out.println("The file is:" + fs.getPath());
 		OutputStream os = null;
 		FileInputStream is = null;
 		try {
-			File f = new File(fs.getPath());
+			File f = new File(movie.getPath());
 			is = new FileInputStream(f);
 			long fSize = f.length();
 			byte xx[] = new byte[4096];
 			resp.setHeader("Accept-Ranges", "bytes");
 			resp.setHeader("Content-Length", fSize + "");
 			resp.setContentType("application.x-msdownload");
-			resp.setHeader("Content-Disposition",
-					"attachment;filename=" + fs.getName());
+			resp.setHeader("Content-Disposition", "attachment;filename="
+					+ movie.getName());
 			if (req.getHeader("Range") != null) {
 				// 若客户端传来Range，说明之前下载了一部分，设置206状态(SC_PARTIAL_CONTENT)
 				resp.setStatus(HttpServletResponse.SC_PARTIAL_CONTENT);
@@ -138,18 +128,6 @@ public class MovieController extends BaseController {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-		}
-	}
-
-	@RequestMapping("/movie/play/{id}")
-	@ResponseBody
-	public void play(@PathVariable Integer id, HttpServletResponse response) {
-		Filestorage fs = dao.selectOne("selectById", id, Filestorage.class);
-		try {
-			response.getWriter().write(JSON.toJSONString(fs));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 

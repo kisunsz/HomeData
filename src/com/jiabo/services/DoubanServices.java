@@ -24,14 +24,11 @@ import com.jiabo.util.HttpClientUtil;
 import com.jiabo.util.ToolKit;
 
 @Service
-public class DoubanServices {
+public class DoubanServices extends BaseServices {
 
 	@Autowired
 	private BaseDAO dao;
 
-	@Autowired
-	private FileStorageServices fsServices;
-	
 	public JSONObject queryByName(String name) {
 		String url = Const.DOUBAN_SEARCH;
 		try {
@@ -44,8 +41,8 @@ public class DoubanServices {
 			if (ary == null || ary.size() == 0)
 				return null;
 			obj = ary.getJSONObject(0);
-		//	obj = obj.getJSONObject("images");
-			//String photo = obj.getString("large");
+			// obj = obj.getJSONObject("images");
+			// String photo = obj.getString("large");
 			return obj;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -87,7 +84,7 @@ public class DoubanServices {
 			for (String photo : photos) {
 				if (photo == null || !photo.contains("albumicon"))
 					continue;
-				fsServices.createAndSavePhoto(photo, movie.getId());
+				storeImgByUrl(photo, Const.FILE_MOVIE, movie.getId());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -101,7 +98,7 @@ public class DoubanServices {
 		if (str == null)
 			throw new RuntimeException("无法获取豆瓣数据");
 		JSONObject obj = JSON.parseObject(str);
-	//	JSONObject rating = obj.getJSONObject("rating");
+		// JSONObject rating = obj.getJSONObject("rating");
 		movie.setRating(obj.getString("average"));
 
 		movie.setAlt(obj.getString("alt"));

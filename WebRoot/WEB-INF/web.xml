@@ -12,14 +12,6 @@
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
-	<servlet>
-		<servlet-name>photo</servlet-name>
-		<servlet-class>com.jiabo.servlet.PhotoServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>photo</servlet-name>
-		<url-pattern>*.jpg</url-pattern>
-	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>appServlet</servlet-name>

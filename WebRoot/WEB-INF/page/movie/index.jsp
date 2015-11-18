@@ -42,12 +42,12 @@
 		</div>
 		<c:forEach var="movie" items="${movieList}" varStatus="s">
 			<div class="movieDiv">
-				<a class="movie" href="movie/${movie.id}" title="${movie.name }">
-					<b> <i></i> <c:if test="${empty movie.photo.path}">
+				<a class="movie" href="movie/${movie.id}" title="${movie.name}">
+					<b> <i></i> <c:if test="${empty movie.photo}">
 							<img class="preview" src="<%=path%>image/default.jpg" width="122"
 								height="165">
-						</c:if> <c:if test="${!empty movie.photo.path}">
-							<img class="preview" src="<%=path %>${movie.photo.path}"
+						</c:if> <c:if test="${!empty movie.photo}">
+							<img class="preview" src="http://jiabo.asuscomm.com:12346/${movie.photo}?p=0"
 								width="122" height="165">
 						</c:if>
 				</b> <span>${movie.name}</span>

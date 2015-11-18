@@ -1,9 +1,11 @@
 
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%
-String path = request.getContextPath();
-String basePath =
-request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+	String imgPath = "http://jiabo.asuscomm.com:4869/";
 %>
 
 <!-- <link rel="stylesheet" type="text/css" href="styles.css"> -->

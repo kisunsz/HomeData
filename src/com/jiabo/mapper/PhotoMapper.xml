@@ -1,123 +1,106 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jiabo.mapper.PhotoMapper">
-  <resultMap id="BaseResultMap" type="com.jiabo.model.Photo">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
-    <result column="filestorageid" jdbcType="INTEGER" property="filestorageid" />
-    <result column="galleryid" jdbcType="INTEGER" property="galleryid" />
-    <result column="zipfilestorageid" jdbcType="INTEGER" property="zipfilestorageid" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiabo.mapper.PhotoMapper" >
+  <resultMap id="BaseResultMap" type="com.jiabo.model.Photo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="galleryid" property="galleryid" jdbcType="INTEGER" />
+    <result column="photo" property="photo" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Base_Column_List">
-    id, title, type, updatetime, filestorageid, galleryid, zipfilestorageid
+  <sql id="Base_Column_List" >
+    id, title, type, updatetime, galleryid, photo
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from photo
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from photo
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.jiabo.model.Photo">
+  <insert id="insert" parameterType="com.jiabo.model.Photo" >
     insert into photo (id, title, type, 
-      updatetime, filestorageid, galleryid, 
-      zipfilestorageid)
+      updatetime, galleryid, photo
+      )
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{updatetime,jdbcType=TIMESTAMP}, #{filestorageid,jdbcType=INTEGER}, #{galleryid,jdbcType=INTEGER}, 
-      #{zipfilestorageid,jdbcType=INTEGER})
+      #{updatetime,jdbcType=TIMESTAMP}, #{galleryid,jdbcType=INTEGER}, #{photo,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.jiabo.model.Photo">
+  <insert id="insertSelective" parameterType="com.jiabo.model.Photo" >
     insert into photo
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
         id,
       </if>
-      <if test="title != null">
+      <if test="title != null" >
         title,
       </if>
-      <if test="type != null">
+      <if test="type != null" >
         type,
       </if>
-      <if test="updatetime != null">
+      <if test="updatetime != null" >
         updatetime,
       </if>
-      <if test="filestorageid != null">
-        filestorageid,
-      </if>
-      <if test="galleryid != null">
+      <if test="galleryid != null" >
         galleryid,
       </if>
-      <if test="zipfilestorageid != null">
-        zipfilestorageid,
+      <if test="photo != null" >
+        photo,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="title != null">
+      <if test="title != null" >
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
+      <if test="type != null" >
         #{type,jdbcType=INTEGER},
       </if>
-      <if test="updatetime != null">
+      <if test="updatetime != null" >
         #{updatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="filestorageid != null">
-        #{filestorageid,jdbcType=INTEGER},
-      </if>
-      <if test="galleryid != null">
+      <if test="galleryid != null" >
         #{galleryid,jdbcType=INTEGER},
       </if>
-      <if test="zipfilestorageid != null">
-        #{zipfilestorageid,jdbcType=INTEGER},
+      <if test="photo != null" >
+        #{photo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jiabo.model.Photo">
+  <update id="updateByPrimaryKeySelective" parameterType="com.jiabo.model.Photo" >
     update photo
-    <set>
-      <if test="title != null">
+    <set >
+      <if test="title != null" >
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
+      <if test="type != null" >
         type = #{type,jdbcType=INTEGER},
       </if>
-      <if test="updatetime != null">
+      <if test="updatetime != null" >
         updatetime = #{updatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="filestorageid != null">
-        filestorageid = #{filestorageid,jdbcType=INTEGER},
-      </if>
-      <if test="galleryid != null">
+      <if test="galleryid != null" >
         galleryid = #{galleryid,jdbcType=INTEGER},
       </if>
-      <if test="zipfilestorageid != null">
-        zipfilestorageid = #{zipfilestorageid,jdbcType=INTEGER},
+      <if test="photo != null" >
+        photo = #{photo,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jiabo.model.Photo">
+  <update id="updateByPrimaryKey" parameterType="com.jiabo.model.Photo" >
     update photo
     set title = #{title,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
       updatetime = #{updatetime,jdbcType=TIMESTAMP},
-      filestorageid = #{filestorageid,jdbcType=INTEGER},
       galleryid = #{galleryid,jdbcType=INTEGER},
-      zipfilestorageid = #{zipfilestorageid,jdbcType=INTEGER}
+      photo = #{photo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-	<select id="selectAll" resultMap="BaseResultMap">
-		select * from photo
-	</select>
-	<select id="selectByGalleryId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-		select * from photo where galleryid=#{id,jdbcType=INTEGER}
-	</select>
 </mapper>

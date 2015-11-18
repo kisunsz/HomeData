@@ -1,8 +1,6 @@
 package com.jiabo.services;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -12,26 +10,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.jiabo.dao.BaseDAO;
-import com.jiabo.model.Filestorage;
+import com.jiabo.bean.ZImgResult;
+import com.jiabo.model.Img;
 import com.jiabo.model.Movie;
 import com.jiabo.util.Const;
 import com.jiabo.util.ToolKit;
 
 @Service
-public class MovieServices {
-
-	@Autowired
-	private BaseDAO dao;
-
-	@Autowired
-	private FileStorageServices fsServices;
+public class MovieServices extends BaseServices {
 
 	public List<Movie> getMovie() {
 		List<Movie> list = dao.selectList("selectAll", null, Movie.class);
@@ -188,8 +179,10 @@ public class MovieServices {
 			movie.setDoubanid(obj.getInteger("id"));
 			obj = obj.getJSONObject("images");
 			String photo = obj.getString("large");
-			Filestorage fs = fsServices.createAndSavePhoto(photo, null);
-			movie.setPhoto(fs);
+			ZImgResult result = store2ZImgByUrl(photo);
+			if (result.isSuccess()) {
+				movie.setPhoto(result.getMd5());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -197,12 +190,10 @@ public class MovieServices {
 
 	private Movie createMovie(File movieFile) {
 		Movie movie = new Movie();
-		Filestorage fs = fsServices.createFileStorage(movieFile.getPath(),
-				movieFile.getName(), Const.FILE_MOVIE, null);
 		String name = movieFile.getName().substring(0,
 				movieFile.getName().lastIndexOf("."));
 		movie.setName(name);
-		movie.setFilestorageid(fs.getId());
+		movie.setPath(movieFile.getPath());
 		return movie;
 	}
 
@@ -211,40 +202,24 @@ public class MovieServices {
 		movie.setName(movieFile.getName());
 		File video = null;
 		File[] movieFileList = movieFile.listFiles();
-		for (File file : movieFileList) {
+  		for (File file : movieFileList) {
 			if (file.isDirectory())
 				continue;
 			if (ToolKit.isVideo(file)
-					&& (video == null || file.length() > video.length()))
+ 					&& (video == null || file.length() > video.length()))
 				video = file;
 		}
 		if (video == null)
 			return;
 
-		Filestorage fs = fsServices.createFileStorage(video.getPath(),
-				video.getName(), Const.FILE_PHOTO, null);
-		movie.setFilestorageid(fs.getId());
-		queryByDouban(movie);
+		movie.setPath(video.getPath());
+ 		queryByDouban(movie);
 		dao.insertObject("insert", movie);
 	}
 
 	private void deleteMovie() {
-		dao.deleteAll("deleteAll", Filestorage.class);
+		dao.deleteAll("deleteAll", Img.class);
 		dao.deleteAll("deleteAll", Movie.class);
 	}
 
-	public String readNFO(File file) {
-		try {
-			String content = IOUtils.toString(new FileInputStream(file));
-			Pattern reg = Pattern.compile("http://www.imdb.com/title/*/");
-			Matcher m = reg.matcher(content);
-			if (m.find()) {
-				String url = m.group();
-				return url;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 }

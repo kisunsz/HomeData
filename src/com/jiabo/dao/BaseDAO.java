@@ -10,6 +10,10 @@ import com.jiabo.util.Const;
 
 @Repository
 public class BaseDAO {
+	public static final String SQL_INSERT="insert";
+	public static final String SQL_SELECTALL="selectAll";
+	public static final String SQL_SELECTBYID="selectById";
+	
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 
