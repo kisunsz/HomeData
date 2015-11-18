@@ -15,16 +15,16 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jiabo.bean.ZImgResult;
+import com.jiabo.util.Const;
 
 @Service
 public class ZImgService {
-	public static final String url = "http://jiabo.asuscomm.com:4869/";
 
 	public ZImgResult upload(InputStream stream, String fileType) {
 		ZImgResult result = new ZImgResult();
 		try {
 			HttpClient client = new HttpClient();
-			PostMethod method = new PostMethod(url + "upload");
+			PostMethod method = new PostMethod(Const.ZIMG + "upload");
 			InputStreamRequestEntity entity = new InputStreamRequestEntity(
 					stream);
 			method.setRequestEntity(entity);
@@ -57,7 +57,7 @@ public class ZImgService {
 		ZImgResult result = new ZImgResult();
 		try {
 			HttpClient client = new HttpClient();
-			PostMethod method = new PostMethod(url + "upload");
+			PostMethod method = new PostMethod(Const.ZIMG + "upload");
 			FilePart part = new FilePart("blob", file);
 			MultipartRequestEntity entity = new MultipartRequestEntity(
 					new Part[] { part }, method.getParams());
